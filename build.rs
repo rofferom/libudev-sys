@@ -35,7 +35,9 @@ fn check_func(function_name: &str) -> bool {
 }
 
 fn main() {
-    pkg_config::find_library("libudev").unwrap();
+    let mut config = pkg_config::Config::new();
+    config.print_system_libs(false);
+    config.probe("libudev").unwrap();
 
     if check_func("udev_hwdb_new") {
         println!("cargo:rustc-cfg=hwdb");
